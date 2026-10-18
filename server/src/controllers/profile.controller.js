@@ -227,14 +227,15 @@ export async function getPublicVolunteerProfile(req, res, next) {
 }
 
 /**
- * Public organization profile view
+ * Public organization profile view with published opportunities list
  */
 export async function getPublicOrganizationProfile(req, res, next) {
   try {
     const orgId = parseInt(req.params.id, 10);
 
     const [orgs] = await pool.query(
-      `SELECT id, name, description, mission, logo_url, website, city, state, country, verification_status, created_at
+      `SELECT id, name, description, mission, logo_url, website, phone, email, address,
+              city, state, country, postal_code, verification_status, created_at
        FROM organizations
        WHERE id = ?`,
       [orgId]
@@ -246,12 +247,20 @@ export async function getPublicOrganizationProfile(req, res, next) {
 
     const org = orgs[0];
 
-    // Count published opportunities
-    const [oppCounts] = await pool.query(
-      "SELECT COUNT(*) as published_count FROM opportunities WHERE organization_id = ? AND status = 'published'",
+    // Fetch published opportunities for this organization
+    const [opps] = await pool.query(
+      `SELECT o.id, o.slug, o.title, o.description, o.location_type, o.location,
+              o.start_date, o.end_date, o.application_deadline, o.commitment_hours,
+              c.name AS category_name, c.icon AS category_icon
+       FROM opportunities o
+       LEFT JOIN categories c ON c.id = o.category_id
+       WHERE o.organization_id = ? AND o.status = 'published'
+       ORDER BY o.application_deadline ASC`,
       [orgId]
     );
-    org.active_opportunities_count = oppCounts[0]?.published_count || 0;
+
+    org.opportunities = opps;
+    org.active_opportunities_count = opps.length;
 
     return sendSuccess(res, org, 'Organization details retrieved.');
   } catch (error) {
@@ -260,15 +269,44 @@ export async function getPublicOrganizationProfile(req, res, next) {
 }
 
 /**
- * Public list of verified organizations
+ * Public list of verified organizations with active opportunities count and search
  */
 export async function listOrganizations(req, res, next) {
   try {
+    const { search, q, city, state } = req.query;
+    const searchTerm = (search || q || '').trim();
+
+    const conditions = ["org.verification_status = 'verified'"];
+    const params = [];
+
+    if (searchTerm) {
+      conditions.push('(org.name LIKE ? OR org.description LIKE ? OR org.city LIKE ?)');
+      const wild = `%${searchTerm}%`;
+      params.push(wild, wild, wild);
+    }
+
+    if (city) {
+      conditions.push('org.city LIKE ?');
+      params.push(`%${city.trim()}%`);
+    }
+
+    if (state) {
+      conditions.push('org.state LIKE ?');
+      params.push(`%${state.trim()}%`);
+    }
+
+    const whereClause = `WHERE ${conditions.join(' AND ')}`;
+
     const [orgs] = await pool.query(
-      `SELECT id, name, description, logo_url, website, city, state, country, verification_status
-       FROM organizations
-       WHERE verification_status = 'verified'
-       ORDER BY name ASC`
+      `SELECT org.id, org.name, org.description, org.mission, org.logo_url, org.website,
+              org.city, org.state, org.country, org.verification_status, org.created_at,
+              COUNT(o.id) AS active_opportunities_count
+       FROM organizations org
+       LEFT JOIN opportunities o ON o.organization_id = org.id AND o.status = 'published'
+       ${whereClause}
+       GROUP BY org.id
+       ORDER BY org.name ASC`,
+      params
     );
 
     return sendSuccess(res, orgs, 'Organizations retrieved successfully.');

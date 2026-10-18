@@ -41,3 +41,10 @@ coverage/
 *.tmp
 *.temp
 scratch/
+database/backups/*.sql
+!database/backups/.gitkeep
+
+# Documentation
+.planning/
+
+

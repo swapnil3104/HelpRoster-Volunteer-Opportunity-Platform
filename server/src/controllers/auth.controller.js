@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import pool from '../config/db.js';
 import { env } from '../config/env.js';
 import { sendSuccess, sendError } from '../utils/apiResponse.js';
+import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/email.service.js';
+import { logAudit } from '../services/audit.service.js';
 
 /**
  * Generate a JWT access token for a user
@@ -154,6 +156,13 @@ export async function register(req, res, next) {
     const token = generateToken(createdUser);
     setAuthCookie(res, token);
 
+    // Asynchronously dispatch welcome email
+    sendWelcomeEmail({
+      email: normalizedEmail,
+      name: `${first_name.trim()} ${last_name.trim()}`,
+      role
+    }).catch(err => console.error('[EmailTrigger] Failed to send welcome email:', err.message));
+
     return sendSuccess(
       res,
       { user: createdUser, token },
@@ -274,4 +283,115 @@ export async function getMe(req, res) {
     { user: req.user },
     'User session retrieved successfully.'
   );
+}
+
+/**
+ * Request password reset instructions
+ * POST /api/v1/auth/forgot-password
+ */
+export async function forgotPassword(req, res, next) {
+  try {
+    const { email } = req.body;
+    if (!email || !email.trim()) {
+      return sendError(res, 'Email address is required.', 400, 'VALIDATION_ERROR');
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const [users] = await pool.query(
+      'SELECT id, email, first_name, last_name, status FROM users WHERE email = ?',
+      [normalizedEmail]
+    );
+
+    let resetToken = null;
+
+    if (users.length > 0 && users[0].status !== 'suspended') {
+      const user = users[0];
+      resetToken = jwt.sign(
+        { id: user.id, email: user.email, type: 'password_reset' },
+        env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      // Record audit log
+      await logAudit(req, {
+        actorId: user.id,
+        action: 'auth.forgot_password_request',
+        targetType: 'user',
+        targetId: user.id,
+        details: { email: user.email }
+      });
+
+      // Send password reset email
+      sendPasswordResetEmail({
+        email: user.email,
+        name: `${user.first_name} ${user.last_name}`,
+        resetToken
+      }).catch(err => console.error('[EmailTrigger] Failed to send password reset email:', err.message));
+    }
+
+    return sendSuccess(
+      res,
+      {
+        emailSent: true,
+        resetToken: env.NODE_ENV !== 'production' ? resetToken : undefined
+      },
+      'If that email address is registered, instructions to reset your password have been sent.'
+    );
+  } catch (error) {
+    return next(error);
+  }
+}
+
+/**
+ * Reset password using signed reset token
+ * POST /api/v1/auth/reset-password
+ */
+export async function resetPassword(req, res, next) {
+  try {
+    const { token, password } = req.body;
+
+    if (!token) {
+      return sendError(res, 'Reset token is required.', 400, 'INVALID_TOKEN');
+    }
+    if (!password || password.length < 8) {
+      return sendError(res, 'Password must be at least 8 characters long.', 400, 'VALIDATION_ERROR');
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, env.JWT_SECRET);
+    } catch {
+      return sendError(res, 'Password reset token is invalid or has expired.', 400, 'TOKEN_EXPIRED');
+    }
+
+    if (decoded.type !== 'password_reset') {
+      return sendError(res, 'Invalid token type.', 400, 'INVALID_TOKEN');
+    }
+
+    const [users] = await pool.query('SELECT id, email, status FROM users WHERE id = ?', [decoded.id]);
+    if (users.length === 0) {
+      return sendError(res, 'User account no longer exists.', 404, 'USER_NOT_FOUND');
+    }
+
+    const user = users[0];
+    if (user.status === 'suspended') {
+      return sendError(res, 'Account is suspended.', 403, 'ACCOUNT_SUSPENDED');
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    await pool.query('UPDATE users SET password_hash = ? WHERE id = ?', [passwordHash, user.id]);
+
+    // Record audit log
+    await logAudit(req, {
+      actorId: user.id,
+      action: 'auth.password_reset',
+      targetType: 'user',
+      targetId: user.id,
+      details: { email: user.email }
+    });
+
+    return sendSuccess(res, null, 'Password has been successfully updated. You may now log in.');
+  } catch (error) {
+    return next(error);
+  }
 }

@@ -200,33 +200,33 @@ fields. - Public profile APIs exclude private account information.
 
 ### TASK-013: Build shared design system `[P0]`
 
--   [ ] Implement color, typography, spacing, and radius tokens from
+-   [x] Implement color, typography, spacing, and radius tokens from
     `Design.md`.
--   [ ] Build shared Button, TextField, TextArea, SelectField,
+-   [x] Build shared Button, TextField, TextArea, SelectField,
     StatusBadge, Alert, and EmptyState components.
--   [ ] Build loading skeletons and error states.
--   [ ] Implement keyboard focus and disabled states.
+-   [x] Build loading skeletons and error states.
+-   [x] Implement keyboard focus and disabled states.
 
 **Acceptance criteria** - Shared components are reused across primary
 pages. - Components support accessible labels and visible focus.
 
 ### TASK-014: Build global layout `[P0]`
 
--   [ ] Implement SiteHeader and SiteFooter.
--   [ ] Add responsive desktop and mobile navigation.
--   [ ] Add page container and heading components.
--   [ ] Add role-aware navigation for authenticated users.
+-   [x] Implement SiteHeader and SiteFooter.
+-   [x] Add responsive desktop and mobile navigation.
+-   [x] Add page container and heading components.
+-   [x] Add role-aware navigation for authenticated users.
 
 **Acceptance criteria** - Public pages share consistent layout. -
 Navigation is keyboard accessible and responsive.
 
 ### TASK-015: Build Home page `[P1]`
 
--   [ ] Create hero section and primary calls to action.
--   [ ] Add featured opportunities.
--   [ ] Add How It Works sections for volunteers and organizations.
--   [ ] Add impact metrics only when backed by reliable data.
--   [ ] Add responsive layout and empty/loading states.
+-   [x] Create hero section and primary calls to action.
+-   [x] Add featured opportunities.
+-   [x] Add How It Works sections for volunteers and organizations.
+-   [x] Add impact metrics only when backed by reliable data.
+-   [x] Add responsive layout and empty/loading states.
 
 **Acceptance criteria** - Visitors can navigate from Home to
 opportunities and registration. - No fabricated impact metrics are
@@ -234,10 +234,10 @@ presented as real data.
 
 ### TASK-016: Build About and Contact pages `[P1]`
 
--   [ ] Implement About and How It Works content.
--   [ ] Implement Contact form UI.
--   [ ] Implement FAQ section.
--   [ ] Add form validation and submission feedback.
+-   [x] Implement About and How It Works content.
+-   [x] Implement Contact form UI.
+-   [x] Implement FAQ section.
+-   [x] Add form validation and submission feedback.
 
 **Acceptance criteria** - Public information pages are responsive and
 accessible. - Contact submission is connected to a functioning backend
@@ -247,12 +247,12 @@ flow before release.
 
 ### TASK-017: Build opportunity list and detail pages `[P0]`
 
--   [ ] Implement opportunity list page.
--   [ ] Implement opportunity detail page.
--   [ ] Display organization, category, location, dates, commitment,
+-   [x] Implement opportunity list page.
+-   [x] Implement opportunity detail page.
+-   [x] Display organization, category, location, dates, commitment,
     eligibility, and deadline.
--   [ ] Add loading, empty, not-found, and error states.
--   [ ] Ensure only published opportunities are publicly visible.
+-   [x] Add loading, empty, not-found, and error states.
+-   [x] Ensure only published opportunities are publicly visible.
 
 **Acceptance criteria** - Public visitors can browse published
 opportunities and view their details. - Draft and archived opportunities
@@ -260,11 +260,11 @@ are not exposed publicly.
 
 ### TASK-018: Implement search and filters `[P1]`
 
--   [ ] Add keyword search.
--   [ ] Add category filter.
--   [ ] Add location filter.
--   [ ] Add date and skills filters where supported by the data model.
--   [ ] Add pagination and clear-filter behavior.
+-   [x] Add keyword search.
+-   [x] Add category filter.
+-   [x] Add location filter.
+-   [x] Add date and skills filters where supported by the data model.
+-   [x] Add pagination and clear-filter behavior.
 
 **Acceptance criteria** - Filters are validated by the API and return
 matching results. - Pagination works without duplicate or missing
@@ -272,12 +272,12 @@ records under normal use.
 
 ### TASK-019: Implement organization opportunity CRUD `[P0]`
 
--   [ ] Build My Opportunities workspace.
--   [ ] Build create/edit opportunity form.
--   [ ] Support draft, publish, close, and archive actions.
--   [ ] Validate dates, deadlines, capacity, and required fields.
--   [ ] Enforce ownership and allowed status transitions in the backend.
--   [ ] Add preview and confirmation for consequential actions.
+-   [x] Build My Opportunities workspace.
+-   [x] Build create/edit opportunity form.
+-   [x] Support draft, publish, close, and archive actions.
+-   [x] Validate dates, deadlines, capacity, and required fields.
+-   [x] Enforce ownership and allowed status transitions in the backend.
+-   [x] Add preview and confirmation for consequential actions.
 
 **Acceptance criteria** - Authorized organization representatives can
 manage only their own opportunities. - Closed or expired opportunities
@@ -285,10 +285,10 @@ reject new applications at the API layer.
 
 ### TASK-020: Build organization directory and profiles `[P1]`
 
--   [ ] Build organization listing page.
--   [ ] Build public organization profile page.
--   [ ] Show published opportunities for each organization.
--   [ ] Add search/filter support if included in the release.
+-   [x] Build organization listing page.
+-   [x] Build public organization profile page.
+-   [x] Show published opportunities for each organization.
+-   [x] Add search/filter support if included in the release.
 
 **Acceptance criteria** - Public pages show only approved public
 fields. - Private organization account data is not exposed.
@@ -297,13 +297,13 @@ fields. - Private organization account data is not exposed.
 
 ### TASK-021: Implement application submission `[P0]`
 
--   [ ] Add Apply action for eligible signed-in volunteers.
--   [ ] Redirect visitors to login/registration before applying.
--   [ ] Implement application creation endpoint.
--   [ ] Check opportunity status and deadline on the server.
--   [ ] Prevent duplicate active applications using transaction-safe
+-   [x] Add Apply action for eligible signed-in volunteers.
+-   [x] Redirect visitors to login/registration before applying.
+-   [x] Implement application creation endpoint.
+-   [x] Check opportunity status and deadline on the server.
+-   [x] Prevent duplicate active applications using transaction-safe
     logic and database constraints where appropriate.
--   [ ] Store initial status as `pending`.
+-   [x] Store initial status as `pending`.
 
 **Acceptance criteria** - A volunteer can apply to an open
 opportunity. - Duplicate, unauthorized, closed, and expired applications
@@ -311,11 +311,11 @@ are rejected safely.
 
 ### TASK-022: Build My Applications page `[P0]`
 
--   [ ] List the current volunteer's applications.
--   [ ] Display opportunity, organization, submission date, and status.
--   [ ] Add status filters.
--   [ ] Display useful empty and error states.
--   [ ] Add application detail/history view if included.
+-   [x] List the current volunteer's applications.
+-   [x] Display opportunity, organization, submission date, and status.
+-   [x] Add status filters.
+-   [x] Display useful empty and error states.
+-   [x] Add application detail/history view if included.
 
 **Acceptance criteria** - A volunteer can see only their own
 applications. - Status values and timestamps reflect persisted server
@@ -323,12 +323,12 @@ data.
 
 ### TASK-023: Implement organization application review `[P0]`
 
--   [ ] Build applicant list for each organization-owned opportunity.
--   [ ] Add accept and reject actions.
--   [ ] Validate permitted status transitions.
--   [ ] Record decision timestamps and reviewer identity where required.
--   [ ] Add confirmation and feedback states.
--   [ ] Add notification integration if enabled.
+-   [x] Build applicant list for each organization-owned opportunity.
+-   [x] Add accept and reject actions.
+-   [x] Validate permitted status transitions.
+-   [x] Record decision timestamps and reviewer identity where required.
+-   [x] Add confirmation and feedback states.
+-   [x] Add notification integration if enabled.
 
 **Acceptance criteria** - Organizations can review applications only for
 opportunities they manage. - Decision changes appear in the volunteer's
@@ -338,11 +338,11 @@ application view.
 
 ### TASK-024: Build volunteer dashboard `[P1]`
 
--   [ ] Add application summary cards.
--   [ ] Add recent application activity.
--   [ ] Add approved volunteer-hours summary.
--   [ ] Add achievements section.
--   [ ] Add links to common volunteer actions.
+-   [x] Add application summary cards.
+-   [x] Add recent application activity.
+-   [x] Add approved volunteer-hours summary.
+-   [x] Add achievements section.
+-   [x] Add links to common volunteer actions.
 
 **Acceptance criteria** - Dashboard metrics are calculated from
 persisted records. - Pending hours are distinguished from approved
@@ -350,22 +350,22 @@ hours.
 
 ### TASK-025: Build organization dashboard `[P1]`
 
--   [ ] Add active opportunity and application metrics.
--   [ ] Add recent applications.
--   [ ] Add quick links to opportunity management.
--   [ ] Add pending volunteer-hour reviews if supported.
+-   [x] Add active opportunity and application metrics.
+-   [x] Add recent applications.
+-   [x] Add quick links to opportunity management.
+-   [x] Add pending volunteer-hour reviews if supported.
 
 **Acceptance criteria** - Dashboard displays only data belonging to the
 authorized organization.
 
 ### TASK-026: Implement volunteer-hour submission and review `[P1]`
 
--   [ ] Build volunteer-hour submission form.
--   [ ] Validate activity date, duration, volunteer, and opportunity.
--   [ ] Store submissions as pending review.
--   [ ] Build organization review queue.
--   [ ] Implement approve/reject endpoints with authorization.
--   [ ] Track reviewer and review timestamp.
+-   [x] Build volunteer-hour submission form.
+-   [x] Validate activity date, duration, volunteer, and opportunity.
+-   [x] Store submissions as pending review.
+-   [x] Build organization review queue.
+-   [x] Implement approve/reject endpoints with authorization.
+-   [x] Track reviewer and review timestamp.
 
 **Acceptance criteria** - Volunteers can submit their own hours. -
 Authorized organization representatives can review only relevant
@@ -373,21 +373,21 @@ submissions. - Only approved hours count toward official impact metrics.
 
 ### TASK-027: Implement achievements `[P1]`
 
--   [ ] Define initial badge criteria.
--   [ ] Implement achievement eligibility logic.
--   [ ] Store earned achievements without duplicate awards.
--   [ ] Display earned badges on the volunteer dashboard.
+-   [x] Define initial badge criteria.
+-   [x] Implement achievement eligibility logic.
+-   [x] Store earned achievements without duplicate awards.
+-   [x] Display earned badges on the volunteer dashboard.
 
 **Acceptance criteria** - Badges are awarded only when criteria are
 met. - Repeated processing does not create duplicate awards.
 
 ### TASK-028: Implement platform impact summaries `[P1]`
 
--   [ ] Define impact metric calculations.
--   [ ] Use published opportunities and verified participation records
+-   [] Define impact metric calculations.
+-   [x] Use published opportunities and verified participation records
     appropriately.
--   [ ] Build public impact section only if data is available.
--   [ ] Exclude private user information from public aggregates.
+-   [x] Build public impact section only if data is available.
+-   [x] Exclude private user information from public aggregates.
 
 **Acceptance criteria** - Metrics are reproducible and documented. -
 Pending or unverified hours are not represented as approved
@@ -397,23 +397,23 @@ contributions.
 
 ### TASK-029: Build admin workspace `[P1]`
 
--   [ ] Build user list and account-status controls.
--   [ ] Build organization review tools.
--   [ ] Build opportunity moderation tools.
--   [ ] Add confirmation and reason fields for moderation actions.
--   [ ] Record privileged actions in audit logs.
+-   [x] Build user list and account-status controls.
+-   [x] Build organization review tools.
+-   [x] Build opportunity moderation tools.
+-   [x] Add confirmation and reason fields for moderation actions.
+-   [x] Record privileged actions in audit logs.
 
 **Acceptance criteria** - Only administrators can use admin endpoints. -
 Important administrative actions are auditable.
 
 ### TASK-030: Complete contact and support workflow `[P1]`
 
--   [ ] Implement backend contact endpoint.
--   [ ] Validate and sanitize form fields.
--   [ ] Store submissions or deliver them to a configured support
+-   [x] Implement backend contact endpoint.
+-   [x] Validate and sanitize form fields.
+-   [x] Store submissions or deliver them to a configured support
     destination.
--   [ ] Add rate limiting and spam controls.
--   [ ] Add success and failure feedback.
+-   [x] Add rate limiting and spam controls.
+-   [x] Add success and failure feedback.
 
 **Acceptance criteria** - Valid requests are persisted or delivered
 through the documented mechanism. - Public submissions cannot overload
@@ -421,12 +421,12 @@ the endpoint easily.
 
 ### TASK-031: Add email notifications `[P1, optional for first release]`
 
--   [ ] Select and configure an email provider.
--   [ ] Create templates for password reset and application decisions.
--   [ ] Send notifications without blocking critical request handling
+-   [x] Select and configure an email provider.
+-   [x] Create templates for password reset and application decisions.
+-   [x] Send notifications without blocking critical request handling
     where practical.
--   [ ] Add safe retry and failure logging.
--   [ ] Keep provider credentials in secrets/configuration.
+-   [x] Add safe retry and failure logging.
+-   [x] Keep provider credentials in secrets/configuration.
 
 **Acceptance criteria** - Notifications are sent only for defined
 events. - Delivery failures are logged safely and do not corrupt
@@ -436,12 +436,14 @@ application state.
 
 ### TASK-032: Unit and integration tests `[P0]`
 
--   [ ] Test input validators and service rules.
--   [ ] Test authentication and authorization middleware.
--   [ ] Test opportunity CRUD and status transitions.
--   [ ] Test application submission and duplicate prevention.
--   [ ] Test volunteer-hour approval rules.
--   [ ] Test database constraints and transactions.
+-   [x] Test input validators and service rules.
+-   [x] Test authentication and authorization middleware.
+-   [x] Test opportunity CRUD and status transitions.
+-   [x] Test application submission and duplicate prevention.
+-   [x] Test volunteer-hour approval rules.
+-   [x] Test database constraints and transactions.
+-   [x] Test on Browser.
+
 
 **Acceptance criteria** - Critical business rules have automated
 tests. - Tests use an isolated test configuration and do not modify
@@ -449,36 +451,36 @@ production data.
 
 ### TASK-033: End-to-end tests `[P1]`
 
--   [ ] Test volunteer registration and login.
--   [ ] Test opportunity discovery and application submission.
--   [ ] Test organization publication and application review.
--   [ ] Test volunteer dashboard and application status updates.
--   [ ] Test unauthorized access attempts.
+-   [x] Test volunteer registration and login.
+-   [x] Test opportunity discovery and application submission.
+-   [x] Test organization publication and application review.
+-   [x] Test volunteer dashboard and application status updates.
+-   [x] Test unauthorized access attempts.
 
 **Acceptance criteria** - Critical user journeys pass in a repeatable
 test environment.
 
 ### TASK-034: Accessibility and responsive QA `[P0]`
 
--   [ ] Test mobile, tablet, and desktop layouts.
--   [ ] Test keyboard navigation and visible focus.
--   [ ] Test form labels and error associations.
--   [ ] Check color contrast and status communication.
--   [ ] Check image alternative text and dialog focus behavior.
+-   [x] Test mobile, tablet, and desktop layouts.
+-   [x] Test keyboard navigation and visible focus.
+-   [x] Test form labels and error associations.
+-   [x] Check color contrast and status communication.
+-   [x] Check image alternative text and dialog focus behavior.
 
 **Acceptance criteria** - No known release-blocking accessibility or
 responsive defects remain.
 
 ### TASK-035: Security hardening `[P0]`
 
--   [ ] Review SQL injection protection.
--   [ ] Verify all protected endpoints enforce authorization.
--   [ ] Configure CORS and secure headers.
--   [ ] Add rate limiting to sensitive endpoints.
--   [ ] Check secrets and sensitive data are excluded from logs and
+-   [x] Review SQL injection protection.
+-   [x] Verify all protected endpoints enforce authorization.
+-   [x] Configure CORS and secure headers.
+-   [x] Add rate limiting to sensitive endpoints.
+-   [x] Check secrets and sensitive data are excluded from logs and
     source control.
--   [ ] Review dependency vulnerabilities.
--   [ ] Verify safe error responses.
+-   [x] Review dependency vulnerabilities.
+-   [x] Verify safe error responses.
 
 **Acceptance criteria** - Critical security scenarios pass the agreed
 test checklist.

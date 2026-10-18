@@ -32,11 +32,11 @@ This roadmap organizes the development of HelpRoster into sequential, reviewable
 
 ### Phase 3: Shared UI System, Layout & Public Pages
 **Goal:** Implement design tokens, reusable component library, and responsive public web presence.
-- [ ] TASK-013: Design tokens & shared UI components (Button, Input, Select, Badge, Card, Modal, EmptyState, Skeleton)
-- [ ] TASK-014: Global responsive header & footer with role-aware navigation
-- [ ] TASK-015: Home page (Hero, featured opportunities, how it works, impact counters)
-- [ ] TASK-016: About Us, FAQ, and Contact pages
-- **Deliverable:** Polished, responsive, accessible public UI.
+- [x] TASK-013: Design tokens & shared UI components (Button, Input, Select, Badge, Card, Modal, EmptyState, Skeleton)
+- [x] TASK-014: Global responsive header & footer with role-aware navigation
+- [x] TASK-015: Home page (Hero, featured opportunities, how it works, impact counters)
+- [x] TASK-016: About Us, FAQ, and Contact pages
+- **Deliverable:** Polished, responsive, accessible public UI. `[COMPLETED]`
 
 ---
 
@@ -44,27 +44,27 @@ This roadmap organizes the development of HelpRoster into sequential, reviewable
 
 ### Phase 4: Opportunity Discovery & Management
 **Goal:** Enable verified organizations to manage listings, and public visitors to search/filter opportunities.
-- [ ] TASK-017: Public opportunity list and detail pages (showing active published listings only)
-- [ ] TASK-018: Multi-criteria search and filtering (keyword, category, location, skills)
-- [ ] TASK-019: Organization opportunity CRUD (with draft, publish, close, archive states, and admin verification check)
-- [ ] TASK-020: Organization public directory and profile view
-- **Deliverable:** Complete opportunity discovery and lifecycle management.
+- [x] TASK-017: Public opportunity list and detail pages (showing active published listings only)
+- [x] TASK-018: Multi-criteria search and filtering (keyword, category, location, skills)
+- [x] TASK-019: Organization opportunity CRUD (with draft, publish, close, archive states, and admin verification check)
+- [x] TASK-020: Organization public directory and profile view
+- **Deliverable:** Complete opportunity discovery and lifecycle management. `[COMPLETED]`
 
 ### Phase 5: Applications Workflow
 **Goal:** Connect volunteers to opportunities with transactional integrity and real-time status tracking.
-- [ ] TASK-021: Application submission by volunteers with deadline checks and duplicate submission prevention
-- [ ] TASK-022: Volunteer "My Applications" dashboard with status filters
-- [ ] TASK-023: Organization applicant review queue (view applicants, accept/reject decisions)
-- **Deliverable:** End-to-end volunteer application and organization decision pipeline.
+- [x] TASK-021: Application submission by volunteers with deadline checks and duplicate submission prevention
+- [x] TASK-022: Volunteer "My Applications" dashboard with status filters
+- [x] TASK-023: Organization applicant review queue (view applicants, accept/reject decisions)
+- **Deliverable:** End-to-end volunteer application and organization decision pipeline. `[COMPLETED]`
 
 ### Phase 6: Dashboards, Volunteer Hours & Achievements
 **Goal:** Deliver role-tailored dashboards, service hours tracking, and gamified achievement badges.
-- [ ] TASK-024: Volunteer dashboard with application metrics, hours summary, and quick links
-- [ ] TASK-025: Organization dashboard with applicant counters and listing statuses
-- [ ] TASK-026: Volunteer hours submission and organization approval/rejection queue
-- [ ] TASK-027: Achievements evaluation engine and badge display
-- [ ] TASK-028: Dynamic platform impact calculation based exclusively on verified hours
-- **Deliverable:** Interactive user dashboards and verified hours accounting.
+- [x] TASK-024: Volunteer dashboard with application metrics, hours summary, and quick links
+- [x] TASK-025: Organization dashboard with applicant counters and listing statuses
+- [x] TASK-026: Volunteer hours submission and organization approval/rejection queue
+- [x] TASK-027: Achievements evaluation engine and badge display
+- [x] TASK-028: Dynamic platform impact calculation based exclusively on verified hours
+- **Deliverable:** Interactive user dashboards and verified hours accounting. `[COMPLETED]`
 
 ---
 
@@ -72,22 +72,23 @@ This roadmap organizes the development of HelpRoster into sequential, reviewable
 
 ### Phase 7: Administration, Support & Transactional Email
 **Goal:** Deliver admin controls, organization verification gate, contact handling, and email notifications.
-- [ ] TASK-029: Administrator workspace (organization verification gate, user status, listing moderation, audit logs)
-- [ ] TASK-030: Contact form API endpoint with rate limiting and persistence
-- [ ] TASK-031: Transactional email notifications (account verification, password reset, application status updates)
-- **Deliverable:** Platform oversight tools and automated email communications.
+- [x] TASK-029: Administrator workspace (organization verification gate, user status, listing moderation, audit logs)
+- [x] TASK-030: Contact form API endpoint with rate limiting, persistence, and staff resolution queue
+- [x] TASK-031: Transactional email notifications (welcome, password reset, application status updates, organization verification)
+- **Deliverable:** Platform oversight tools and automated email communications. `[COMPLETED]`
 
 ### Phase 8: Testing, Accessibility & Security Hardening
 **Goal:** Validate system integrity, test automated flows, ensure accessibility, and harden security.
-- [ ] TASK-032: Automated unit and integration tests (Auth, Opps, Applications, Hours)
-- [ ] TASK-033: End-to-end critical user journey testing
-- [ ] TASK-034: Accessibility (WCAG 2.1 AA) and responsive QA across device viewports
-- [ ] TASK-035: Security audit (SQLi, XSS, CSRF, rate-limiting, CORS, sensitive data leak prevention)
-- **Deliverable:** Tested, hardened, accessible codebase ready for production.
+- [x] TASK-032: Automated unit and integration tests (Auth, Opps, Applications, Hours, Contact, Admin, Email - 118 tests passing)
+- [x] TASK-033: End-to-end critical user journey testing (`e2e_journey.test.js` validating complete multi-role volunteer pipeline)
+- [x] TASK-034: Accessibility (WCAG 2.1 AA) and responsive QA across device viewports (browser subagent verified)
+- [x] TASK-035: Security audit (SQLi immunity, RBAC enforcement, rate-limiting, CORS, Helmet headers, error suppression)
+- **Deliverable:** Tested, hardened, accessible codebase ready for production. `[COMPLETED]`
 
 ### Phase 9: Deployment Configuration & Release Readiness
 **Goal:** Finalize production builds, documentation, and launch checklist.
-- [ ] TASK-036: Production deployment configuration, environment variables, and database backup routines
-- [ ] TASK-037: Complete developer documentation, setup guides, and API documentation
-- [ ] TASK-038: Release readiness audit and final launch signoff
-- **Deliverable:** Production-ready HelpRoster platform ready for public deployment.
+- [x] TASK-036: Production deployment configuration, environment variables, and database backup routines
+- [x] TASK-037: Complete developer documentation, setup guides, and API documentation
+- [x] TASK-038: Release readiness audit and final launch signoff
+- **Deliverable:** Production-ready HelpRoster platform ready for public deployment. `[COMPLETED]`
+

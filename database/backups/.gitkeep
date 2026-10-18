@@ -1,0 +1,2 @@
+# This directory stores automated and manual database backups.
+# SQL dumps (*.sql) in this directory are excluded from git by .gitignore.

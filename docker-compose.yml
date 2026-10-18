@@ -1,0 +1,115 @@
+version: '3.8'
+
+# ==============================================================================
+# HelpRoster - Complete Production Docker Compose Specification
+# Includes MySQL 8.0 with automated schema initialization, Node.js REST API,
+# and high-performance Nginx reverse-proxy serving the React Vite frontend.
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. Relational Database: MySQL 8.0
+  # ----------------------------------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: helproster-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_super_secure_password_change_me}
+      MYSQL_DATABASE: ${DB_NAME:-helproster_db}
+      MYSQL_USER: ${DB_USER:-helproster_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-helproster_secure_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - helproster-network
+
+  # ----------------------------------------------------------------------------
+  # 2. Backend REST API: Express.js (Node 20 Alpine)
+  # ----------------------------------------------------------------------------
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: helproster-server
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      CLIENT_URL: ${CLIENT_URL:-http://localhost}
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-helproster_user}
+      DB_PASSWORD: ${DB_PASSWORD:-helproster_secure_password}
+      DB_NAME: ${DB_NAME:-helproster_db}
+      DB_CONNECTION_LIMIT: 20
+      JWT_SECRET: ${JWT_SECRET:-replace_with_a_cryptographically_secure_random_jwt_key_min_32_chars}
+      JWT_EXPIRES_IN: 7d
+      COOKIE_SECRET: ${COOKIE_SECRET:-replace_with_a_secure_cookie_signing_secret_key_32_chars}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-HelpRoster Support <notifications@helproster.org>}
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - helproster-network
+
+  # ----------------------------------------------------------------------------
+  # 3. Frontend Web Client: Nginx Alpine + Vite SPA
+  # ----------------------------------------------------------------------------
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api/v1
+        VITE_APP_NAME: "HelpRoster"
+    container_name: helproster-client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - helproster-network
+
+# ------------------------------------------------------------------------------
+# Persistent Storage Volumes
+# ------------------------------------------------------------------------------
+volumes:
+  mysql_data:
+    driver: local
+
+# ------------------------------------------------------------------------------
+# Isolated Internal Network
+# ------------------------------------------------------------------------------
+networks:
+  helproster-network:
+    driver: bridge

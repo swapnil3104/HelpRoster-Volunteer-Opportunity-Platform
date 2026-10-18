@@ -15,7 +15,14 @@ const envSchema = z.object({
   DB_CONNECTION_LIMIT: z.string().default('10').transform((val) => parseInt(val, 10)),
   JWT_SECRET: z.string().default('default_dev_secret_key_minimum_32_characters_long_for_safety'),
   JWT_EXPIRES_IN: z.string().default('7d'),
-  COOKIE_SECRET: z.string().default('default_dev_cookie_secret_key_long_enough_for_security')
+  COOKIE_SECRET: z.string().default('default_dev_cookie_secret_key_long_enough_for_security'),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional().transform((val) => (val ? parseInt(val, 10) : undefined)),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().optional(),
+  SMTP_SECURE: z.string().optional(),
+  LOG_LEVEL: z.string().default('info')
 });
 
 const parsed = envSchema.safeParse(process.env);

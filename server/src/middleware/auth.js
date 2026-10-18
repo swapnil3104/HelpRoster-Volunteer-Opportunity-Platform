@@ -127,6 +127,7 @@ export async function optionalAuthenticate(req, res, next) {
  * @param {...string} allowedRoles
  */
 export function requireRole(...allowedRoles) {
+  const flatRoles = allowedRoles.flat();
   return (req, res, next) => {
     if (!req.user) {
       return sendError(
@@ -137,10 +138,10 @@ export function requireRole(...allowedRoles) {
       );
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!flatRoles.includes(req.user.role)) {
       return sendError(
         res,
-        `Access denied. Required role: ${allowedRoles.join(' or ')}.`,
+        `Access denied. Required role: ${flatRoles.join(' or ')}.`,
         403,
         'FORBIDDEN'
       );

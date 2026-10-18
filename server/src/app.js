@@ -3,8 +3,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import rateLimit from 'express-rate-limit';
 import { env } from './config/env.js';
+import { globalLimiter } from './middleware/rateLimiter.js';
 import apiRoutes from './routes/index.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -35,19 +35,6 @@ if (env.NODE_ENV !== 'test') {
 }
 
 // Global baseline rate limiter
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 500, // Limit each IP to 500 requests per 15 minutes
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    success: false,
-    error: {
-      code: 'TOO_MANY_REQUESTS',
-      message: 'Too many requests from this IP, please try again after 15 minutes.'
-    }
-  }
-});
 app.use(globalLimiter);
 
 // Mount API routes under /api/v1
