@@ -1,0 +1,23 @@
+{
+  "project_name": "HelpRoster",
+  "version": "1.0.0",
+  "stack": {
+    "frontend": "React (JavaScript) + Vite + React Router + Tailwind CSS",
+    "backend": "Node.js + Express.js",
+    "database": "MySQL (mysql2 / connection pool / prepared statements)",
+    "auth": "JWT in httpOnly cookies with CSRF protection",
+    "email": "Transactional email integration (Nodemailer / SMTP / Resend)"
+  },
+  "workflow": {
+    "mode": "interactive",
+    "verify_steps": true,
+    "require_tests": true,
+    "security_hardening": true
+  },
+  "decisions": {
+    "org_verification_required_to_publish": true,
+    "auth_strategy": "jwt_httponly_cookie",
+    "styling_system": "tailwind_css",
+    "email_integration": "transactional_smtp_or_resend"
+  }
+}
